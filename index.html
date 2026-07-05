@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prajwal Ramteke — Full-Stack Web Developer</title>
+<meta name="description" content="Portfolio of Prajwal Ramteke, Full-Stack Web Developer specializing in Python, Flask, and JavaScript." />
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<!-- AOS (scroll animations) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+<!-- Fonts: JetBrains Mono (display / code) + Inter (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0B0E14',
+          surface: '#131722',
+          surfacealt: '#1A1F2C',
+          line: '#232A38',
+          muted: '#7C8699',
+          fog: '#E6E9EF',
+          gold: '#E3B341',
+          mint: '#5FD68A',
+          sky: '#6FB1FC',
+          rose: '#F2789F',
+        },
+        fontFamily: {
+          mono: ['"JetBrains Mono"', 'monospace'],
+          sans: ['Inter', 'sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root {
+    --ink: #0B0E14;
+    --surface: #131722;
+  }
+
+  * { scroll-behavior: smooth; }
+
+  body {
+    background-color: #0B0E14;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(111,177,252,0.08), transparent 40%),
+      radial-gradient(circle at 85% 0%, rgba(227,179,65,0.07), transparent 35%),
+      radial-gradient(circle at 50% 100%, rgba(95,214,138,0.06), transparent 40%);
+    font-family: 'Inter', sans-serif;
+  }
+
+  ::selection { background: #E3B341; color: #0B0E14; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #0B0E14; }
+  ::-webkit-scrollbar-thumb { background: #232A38; border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2E3648; }
+
+  /* Faint code-grid backdrop */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 42px 42px;
+  }
+
+  /* Floating ambient shapes */
+  @keyframes float-slow {
+    0%, 100% { transform: translate(0,0) rotate(0deg); }
+    50% { transform: translate(18px,-26px) rotate(8deg); }
+  }
+  @keyframes float-slower {
+    0%, 100% { transform: translate(0,0) rotate(0deg); }
+    50% { transform: translate(-24px,20px) rotate(-6deg); }
+  }
+  .float-a { animation: float-slow 9s ease-in-out infinite; }
+  .float-b { animation: float-slower 12s ease-in-out infinite; }
+
+  /* Blinking cursor for the typing effect */
+  .type-cursor {
+    display: inline-block;
+    width: 3px;
+    margin-left: 2px;
+    background: #E3B341;
+    animation: blink 0.9s steps(1) infinite;
+  }
+  @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+  /* Fade-up utility (used alongside AOS for elements AOS doesn't cover) */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fade-up 0.8s ease forwards; }
+
+  /* Editor window chrome */
+  .traffic { width: 11px; height: 11px; border-radius: 999px; }
+
+  /* Section "file tab" label */
+  .file-tab {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  /* Skill bar fill animation trigger via inline style + transition */
+  .skill-fill {
+    transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Glow hover for links/buttons */
+  .glow-hover { transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease; }
+  .glow-hover:hover {
+    transform: translateY(-3px);
+  }
+  .glow-gold:hover { box-shadow: 0 0 0 1px rgba(227,179,65,0.4), 0 18px 40px -12px rgba(227,179,65,0.35); border-color: rgba(227,179,65,0.6); }
+  .glow-sky:hover { box-shadow: 0 0 0 1px rgba(111,177,252,0.4), 0 18px 40px -12px rgba(111,177,252,0.35); border-color: rgba(111,177,252,0.6); }
+  .glow-mint:hover { box-shadow: 0 0 0 1px rgba(95,214,138,0.4), 0 18px 40px -12px rgba(95,214,138,0.35); border-color: rgba(95,214,138,0.6); }
+
+  /* Project card hover lift */
+  .card-hover { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease, box-shadow 0.4s ease; }
+  .card-hover:hover { transform: translateY(-6px); border-color: rgba(227,179,65,0.35); box-shadow: 0 30px 60px -25px rgba(0,0,0,0.6); }
+
+  /* Nav link underline */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px;
+    background: #E3B341; transition: width 0.3s ease;
+  }
+  .nav-link:hover::after { width: 100%; }
+
+  /* Section entrance divider glow */
+  .divider-glow {
+    background: linear-gradient(90deg, transparent, rgba(227,179,65,0.5), transparent);
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .float-a, .float-b, .type-cursor, .fade-up { animation: none !important; }
+    * { scroll-behavior: auto !important; }
+  }
+
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+  }
+</style>
+</head>
+
+<body class="bg-ink text-fog antialiased selection:bg-gold">
+
+  <!-- ================= NAV ================= -->
+  <header class="fixed top-0 inset-x-0 z-50 border-b border-line/80 bg-ink/50 backdrop-blur-[2px]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="#home" class="flex items-center gap-2 font-mono text-sm text-fog">
+          <span class="flex gap-1.5">
+            <span class="traffic bg-rose/70"></span>
+            <span class="traffic bg-gold/70"></span>
+            <span class="traffic bg-mint/70"></span>
+          </span>
+          <span class="ml-2 text-muted">~/</span><span class="text-fog font-semibold">prajwal</span><span class="text-gold">.dev</span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-8 font-mono text-[13px] text-muted">
+          <a href="#skills" class="nav-link hover:text-fog transition-colors">01_skills</a>
+          <a href="#projects" class="nav-link hover:text-fog transition-colors">02_projects</a>
+          <a href="#certifications" class="nav-link hover:text-fog transition-colors">03_certs</a>
+          <a href="#contact" class="nav-link hover:text-fog transition-colors">04_contact</a>
+        </nav>
+
+        <a href="#contact" class="hidden md:inline-flex items-center gap-2 font-mono text-xs px-4 py-2 rounded-md border border-gold/40 text-gold glow-hover glow-gold">
+          <i class="fa-solid fa-terminal text-[11px]"></i> say_hello()
+        </a>
+
+        <!-- mobile menu button -->
+        <button id="menuBtn" class="md:hidden text-fog text-xl">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- mobile nav -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-line bg-ink/95 px-6 py-4 flex flex-col gap-4 font-mono text-sm text-muted">
+      <a href="#skills" class="hover:text-gold">01_skills</a>
+      <a href="#projects" class="hover:text-gold">02_projects</a>
+      <a href="#certifications" class="hover:text-gold">03_certs</a>
+      <a href="#contact" class="hover:text-gold">04_contact</a>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section id="home" class="relative min-h-screen flex items-center pt-28 pb-20 overflow-hidden grid-bg">
+
+    <!-- floating ambient blobs -->
+    <div class="absolute -top-10 -left-10 w-72 h-72 bg-sky/5 rounded-full blur-2xl float-a pointer-events-none -z-10"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-2xl float-b pointer-events-none -z-10"></div>
+    <div class="absolute top-1/3 right-1/4 w-40 h-40 bg-mint/5 rounded-full blur-2xl float-a pointer-events-none -z-10"></div>
+
+    <div class="relative max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-14 items-center w-full">
+
+      <!-- Left: intro text -->
+      <div data-aos="fade-right" data-aos-duration="900">
+        <p class="font-mono text-xs tracking-widest text-mint mb-5 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-mint inline-block animate-pulse"></span>
+          AVAILABLE FOR OPPORTUNITIES
+        </p>
+
+        <h1 class="font-mono font-extrabold leading-[1.05] text-4xl sm:text-5xl lg:text-6xl text-white">
+          Prajwal
+          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-gold via-mint to-sky">Ramteke</span>
+        </h1>
+
+        <p class="mt-6 font-mono text-lg sm:text-xl text-gray-200 h-8">
+          <span id="typedRole" class="text-white"></span><span class="type-cursor h-5 align-middle"></span>
+        </p>
+
+        <p class="mt-6 text-gray-300 leading-relaxed max-w-md">
+          B.Sc. Computer Science student at <span class="text-white font-medium">G.H. Raisoni College, Nagpur</span> (Expected 2026), building clean, secure, database-backed web applications from the ground up — backend logic to pixel-level UI.
+        </p>
+       <div class="mt-9 flex flex-wrap gap-4">
+          <!-- Download Resume Button -->
+          <a href="Prajwal_Resume.pdf" download class="glow-hover glow-gold inline-flex items-center gap-2 bg-gold text-ink font-semibold px-6 py-3 rounded-md text-sm hover:bg-gold/90">
+            <i class="fa-solid fa-download"></i> Download Resume
+          </a>
+          <a href="#projects" class="glow-hover glow-sky inline-flex items-center gap-2 border border-line text-fog font-semibold px-6 py-3 rounded-md text-sm hover:border-sky/60">
+            <i class="fa-solid fa-diagram-project"></i> View Projects
+          </a>
+        </div>
+
+        <div class="mt-10 flex items-center gap-6 text-muted text-xl">
+          <a href="mailto:ramtekeprajwal07@gmail.com" class="hover:text-gold transition-colors" title="Email"><i class="fa-solid fa-envelope"></i></a>
+          <a href="https://linkedin.com/in/prajwal-ramteke-7a8358312" target="_blank" class="hover:text-sky transition-colors" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://github.com/ramtekeprajwal07-pixel" target="_blank" class="hover:text-mint transition-colors" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <!-- Right: code editor mockup -->
+      <div data-aos="fade-left" data-aos-duration="900" data-aos-delay="150" class="relative">
+        <div class="rounded-xl border border-line bg-surface shadow-2xl shadow-black/50 overflow-hidden">
+          <!-- tab bar -->
+          <div class="flex items-center justify-between px-4 py-3 border-b border-line bg-surfacealt">
+            <div class="flex items-center gap-2">
+              <span class="traffic bg-rose"></span>
+              <span class="traffic bg-gold"></span>
+              <span class="traffic bg-mint"></span>
+            </div>
+            <span class="font-mono text-xs text-muted">developer.js</span>
+            <span class="w-4"></span>
+          </div>
+          <!-- code body -->
+          <div class="p-6 font-mono text-[13px] sm:text-sm leading-7 overflow-x-auto">
+<pre><code><span class="text-muted">1</span>  <span class="text-sky">const</span> <span class="text-fog">developer</span> = {
+<span class="text-muted">2</span>    <span class="text-gold">name</span>: <span class="text-mint">'Prajwal Ramteke'</span>,
+<span class="text-muted">3</span>    <span class="text-gold">role</span>: <span class="text-mint">'Full-Stack Web Developer'</span>,
+<span class="text-muted">4</span>    <span class="text-gold">college</span>: <span class="text-mint">'G.H. Raisoni College, Nagpur'</span>,
+<span class="text-muted">5</span>    <span class="text-gold">degree</span>: <span class="text-mint">'B.Sc. Computer Science'</span>,
+<span class="text-muted">6</span>    <span class="text-gold">graduating</span>: <span class="text-sky">2026</span>,
+<span class="text-muted">7</span>    <span class="text-gold">stack</span>: [<span class="text-mint">'Python'</span>, <span class="text-mint">'Flask'</span>, <span class="text-mint">'JS'</span>, <span class="text-mint">'SQL'</span>],
+<span class="text-muted">8</span>    <span class="text-gold">status</span>: <span class="text-rose">'shipping_code'</span>,
+<span class="text-muted">9</span>  };</code></pre>
+          </div>
+        </div>
+
+        <!-- floating badge -->
+        <div class="float-b absolute -bottom-6 -left-6 hidden sm:flex items-center gap-2 bg-surface border border-line rounded-lg px-4 py-3 shadow-xl">
+          <i class="fa-solid fa-database text-sky"></i>
+          <span class="font-mono text-xs text-muted">SQL queries: <span class="text-fog">optimized</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- scroll cue -->
+    <a href="#skills" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted hover:text-gold transition-colors">
+      <i class="fa-solid fa-chevron-down animate-bounce"></i>
+    </a>
+  </section>
+
+  <!-- ================= SKILLS ================= -->
+  <section id="skills" class="py-28 border-t border-line/60 relative">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div data-aos="fade-up" class="mb-14">
+        <p class="file-tab text-xs text-mint mb-3">// 01_skills.js</p>
+        <h2 class="font-mono font-bold text-3xl sm:text-4xl text-fog">Technical Skills</h2>
+        <p class="text-muted mt-3 max-w-lg">The languages, frameworks, and tools I reach for to take an idea from schema to shipped product.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        <!-- Skill cards injected via markup, bars animated on scroll via IntersectionObserver -->
+
+        <div data-aos="fade-up" data-aos-delay="0" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-gold">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-brands fa-python text-2xl text-sky"></i>
+            <span class="font-mono text-xs text-muted">90%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">Python</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-sky to-mint rounded-full" style="width:0%" data-width="90"></div>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="50" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-gold">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-solid fa-flask text-2xl text-gold"></i>
+            <span class="font-mono text-xs text-muted">85%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">Flask</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-gold to-rose rounded-full" style="width:0%" data-width="85"></div>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="100" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-gold">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-brands fa-js text-2xl text-gold"></i>
+            <span class="font-mono text-xs text-muted">80%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">JavaScript</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-gold to-mint rounded-full" style="width:0%" data-width="80"></div>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="150" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-gold">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-brands fa-html5 text-2xl text-rose"></i>
+            <span class="font-mono text-xs text-muted">95%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">HTML5</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-rose to-gold rounded-full" style="width:0%" data-width="95"></div>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="200" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-gold">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-brands fa-css3-alt text-2xl text-sky"></i>
+            <span class="font-mono text-xs text-muted">90%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">CSS3</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-sky to-gold rounded-full" style="width:0%" data-width="90"></div>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="0" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-mint">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-solid fa-database text-2xl text-mint"></i>
+            <span class="font-mono text-xs text-muted">85%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">SQL</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-mint to-sky rounded-full" style="width:0%" data-width="85"></div>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="50" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-mint">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-solid fa-layer-group text-2xl text-mint"></i>
+            <span class="font-mono text-xs text-muted">80%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">SQLite</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-mint to-gold rounded-full" style="width:0%" data-width="80"></div>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="100" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-mint">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-solid fa-server text-2xl text-sky"></i>
+            <span class="font-mono text-xs text-muted">80%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">MySQL</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-sky to-rose rounded-full" style="width:0%" data-width="80"></div>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="150" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-gold">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-brands fa-git-alt text-2xl text-rose"></i>
+            <span class="font-mono text-xs text-muted">85%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">Git</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-rose to-mint rounded-full" style="width:0%" data-width="85"></div>
+          </div>
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="200" class="skill-card group border border-line bg-surface rounded-xl p-5 glow-hover glow-gold">
+          <div class="flex items-center justify-between mb-4">
+            <i class="fa-brands fa-github text-2xl text-fog"></i>
+            <span class="font-mono text-xs text-muted">85%</span>
+          </div>
+          <p class="font-mono text-sm text-fog mb-3">GitHub</p>
+          <div class="h-1.5 bg-line rounded-full overflow-hidden">
+            <div class="skill-fill h-full bg-gradient-to-r from-fog to-gold rounded-full" style="width:0%" data-width="85"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects" class="py-28 border-t border-line/60 relative overflow-hidden">
+    <div class="absolute top-1/4 -right-20 w-72 h-72 bg-gold/5 rounded-full blur-3xl float-a"></div>
+
+    <div class="max-w-6xl mx-auto px-6 relative">
+      <div data-aos="fade-up" class="mb-14">
+        <p class="file-tab text-xs text-mint mb-3">// 02_projects.js</p>
+        <h2 class="font-mono font-bold text-3xl sm:text-4xl text-fog">Featured Project</h2>
+        <p class="text-muted mt-3 max-w-lg">A real application, not a tutorial clone — built end to end with authentication, data modeling, and a responsive interface.</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="100" class="card-hover border border-line bg-surface rounded-2xl overflow-hidden grid lg:grid-cols-5">
+
+        <!-- left: mock preview panel -->
+        <div class="lg:col-span-2 bg-surfacealt border-b lg:border-b-0 lg:border-r border-line p-8 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-6">
+              <span class="traffic bg-rose"></span>
+              <span class="traffic bg-gold"></span>
+              <span class="traffic bg-mint"></span>
+              <span class="ml-2 font-mono text-xs text-muted">expense_tracker.py</span>
+            </div>
+            <p class="font-mono text-[12px] leading-6 text-muted">
+              <span class="text-sky">@app.route</span>(<span class="text-mint">'/summary'</span>)<br>
+              <span class="text-sky">def</span> <span class="text-gold">spending_summary</span>():<br>
+              &nbsp;&nbsp;<span class="text-fog">query</span> = <span class="text-mint">"SELECT category,"</span><br>
+              &nbsp;&nbsp;<span class="text-mint">"SUM(amount) FROM"</span><br>
+              &nbsp;&nbsp;<span class="text-mint">"expenses GROUP BY"</span><br>
+              &nbsp;&nbsp;<span class="text-mint">"category"</span><br>
+              &nbsp;&nbsp;<span class="text-sky">return</span> render_summary(query)
+            </p>
+          </div>
+          <div class="mt-8 flex flex-wrap gap-2">
+            <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-sky/30 text-sky">Python</span>
+            <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-gold/30 text-gold">Flask</span>
+            <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-mint/30 text-mint">SQLite</span>
+            <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-rose/30 text-rose">Bootstrap</span>
+          </div>
+        </div>
+
+        <!-- right: details -->
+        <div class="lg:col-span-3 p-8 flex flex-col justify-between">
+          <div>
+            <h3 class="font-mono text-2xl text-fog font-semibold mb-2">Personal Expense Tracker</h3>
+            <p class="text-muted leading-relaxed mb-6">A full-stack web app for logging, categorizing, and analyzing personal spending — built to turn raw transactions into a clear financial picture.</p>
+
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-shield-halved text-mint mt-1"></i>
+                <span class="text-sm text-muted"><span class="text-fog">Secure user authentication</span> with hashed credentials and session-based access control.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-chart-pie text-sky mt-1"></i>
+                <span class="text-sm text-muted"><span class="text-fog">Dynamic SQL queries</span> that aggregate spending by category, date range, and trend.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-mobile-screen-button text-gold mt-1"></i>
+                <span class="text-sm text-muted"><span class="text-fog">Responsive UI</span> built with Bootstrap for a clean experience on any device.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="mt-8 flex flex-wrap gap-4">
+            <!-- GitHub Repository Link for Featured Project -->
+            <a href="https://github.com/ramtekeprajwal07-pixel/Expense-Tracker-Flask" target="_blank" class="glow-hover glow-mint inline-flex items-center gap-2 border border-line px-5 py-2.5 rounded-md text-sm font-semibold text-fog hover:border-mint/60">
+              <i class="fa-brands fa-github"></i> GitHub Code
+            </a>
+            <!-- Project Live Demo Link -->
+            <!-- Project Live Demo Link pointing to GitHub Readme -->
+            <a href="https://github.com/ramtekeprajwal07-pixel/Expense-Tracker-Flask#readme" target="_blank" class="glow-hover glow-gold inline-flex items-center gap-2 bg-gold text-ink px-5 py-2.5 rounded-md text-sm font-semibold hover:bg-gold/90">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CERTIFICATIONS ================= -->
+  <section id="certifications" class="py-28 border-t border-line/60 relative">
+    <div class="max-w-6xl mx-auto px-6">
+      <div data-aos="fade-up" class="mb-14">
+        <p class="file-tab text-xs text-mint mb-3">// 03_certifications.js</p>
+        <h2 class="font-mono font-bold text-3xl sm:text-4xl text-fog">Certifications</h2>
+        <p class="text-muted mt-3 max-w-lg">Verified credentials in ads, data, and design that back up the skills above.</p>
+      </div>
+
+      <div class="space-y-6">
+
+        <!-- Cert 1: Google Skillshop -->
+        <div data-aos="fade-up" data-aos-delay="0" class="relative border border-gold/25 bg-gradient-to-br from-surface to-surfacealt rounded-2xl p-8 sm:p-10 overflow-hidden card-hover">
+          <div class="absolute -top-16 -right-16 w-48 h-48 bg-gold/10 rounded-full blur-3xl"></div>
+
+          <div class="relative flex flex-col sm:flex-row sm:items-start gap-6">
+            <div class="w-16 h-16 shrink-0 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
+              <i class="fa-solid fa-certificate text-3xl text-gold"></i>
+            </div>
+
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-3 mb-2">
+                <h3 class="font-mono text-xl text-fog font-semibold">AI-Powered Performance Ads Certification</h3>
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-mint/30 text-mint">Valid till Apr 2027</span>
+              </div>
+              <p class="text-sm text-muted mb-4">Issued by <span class="text-fog">Google Skillshop</span> · Credential ID <span class="text-fog">180277832</span></p>
+
+              <p class="text-muted leading-relaxed max-w-2xl">
+                Validates the ability to plan and manage performance advertising campaigns that use Google's AI-driven bidding and targeting — covering how machine learning optimizes ad delivery, audience signals, and budget allocation for measurable results.
+              </p>
+
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-line text-muted">Google Skillshop</span>
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-line text-muted">Performance Ads</span>
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-line text-muted">Applied AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cert 2: freeCodeCamp -->
+        <div data-aos="fade-up" data-aos-delay="100" class="relative border border-sky/25 bg-gradient-to-br from-surface to-surfacealt rounded-2xl p-8 sm:p-10 overflow-hidden card-hover">
+          <div class="absolute -top-16 -right-16 w-48 h-48 bg-sky/10 rounded-full blur-3xl"></div>
+
+          <div class="relative flex flex-col sm:flex-row sm:items-start gap-6">
+            <div class="w-16 h-16 shrink-0 rounded-xl bg-sky/10 border border-sky/30 flex items-center justify-center">
+              <i class="fa-solid fa-chart-line text-3xl text-sky"></i>
+            </div>
+
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-3 mb-2">
+                <h3 class="font-mono text-xl text-fog font-semibold">Data Analysis with Python</h3>
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-mint/30 text-mint">Issued Apr 24, 2026</span>
+              </div>
+              <p class="text-sm text-muted mb-4">Issued by <span class="text-fog">freeCodeCamp.org</span> · ~300 hours of coursework</p>
+
+              <p class="text-muted leading-relaxed max-w-2xl">
+                A developer certification covering data analysis with Python — using libraries like NumPy and Pandas to clean, explore, and draw insight from real datasets through hands-on projects.
+              </p>
+
+              <div class="mt-6 flex flex-wrap items-center gap-2">
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-line text-muted">Python</span>
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-line text-muted">Data Analysis</span>
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-line text-muted">Pandas &amp; NumPy</span>
+                <a href="https://freecodecamp.org/certification/prajwalramteke/data-analysis-with-python-v7" target="_blank" rel="noopener" class="ml-auto text-xs font-mono text-sky hover:text-sky/80 transition-colors flex items-center gap-1.5">
+                  Verify <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cert 3: Forage / Lloyds Banking Group -->
+        <div data-aos="fade-up" data-aos-delay="200" class="relative border border-mint/25 bg-gradient-to-br from-surface to-surfacealt rounded-2xl p-8 sm:p-10 overflow-hidden card-hover">
+          <div class="absolute -top-16 -right-16 w-48 h-48 bg-mint/10 rounded-full blur-3xl"></div>
+
+          <div class="relative flex flex-col sm:flex-row sm:items-start gap-6">
+            <div class="w-16 h-16 shrink-0 rounded-xl bg-mint/10 border border-mint/30 flex items-center justify-center">
+              <i class="fa-solid fa-pen-ruler text-3xl text-mint"></i>
+            </div>
+
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-3 mb-2">
+                <h3 class="font-mono text-xl text-fog font-semibold">UX Design Advanced Job Simulation</h3>
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-mint/30 text-mint">Completed Apr 28, 2026</span>
+              </div>
+              <p class="text-sm text-muted mb-4">Issued by <span class="text-fog">Forage</span>, on behalf of <span class="text-fog">Lloyds Banking Group</span></p>
+
+              <p class="text-muted leading-relaxed max-w-2xl">
+                A job simulation completing practical UX tasks for Lloyds Banking Group — researching customer spending habits, developing a customer value proposition, and designing and presenting it.
+              </p>
+
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-line text-muted">UX Research</span>
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-line text-muted">Value Proposition</span>
+                <span class="badge text-[11px] px-2.5 py-1 rounded-full border border-line text-muted">Presentation Design</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <!-- ================= CONTACT SECTION ================= -->
+  <section id="contact" class="py-24 bg-ink">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="font-mono text-xs tracking-widest text-sky mb-12 flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-sky inline-block"></span>
+        03_GET_IN_TOUCH
+      </h2>
+      
+      <div class="grid sm:grid-cols-3 gap-6">
+
+        <!-- Email Card -->
+        <a href="mailto:ramtekeprajwal07@gmail.com" class="glow-hover glow-gold group border border-line bg-surface rounded-xl p-8 flex flex-col items-center text-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-gold text-xl group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <div>
+            <p class="font-mono text-sm text-fog font-semibold">Email</p>
+            <p class="text-muted text-xs mt-1 break-all">ramtekeprajwal07@gmail.com</p>
+          </div>
+        </a>
+
+        <!-- LinkedIn Card -->
+        <a href="https://linkedin.com/in/prajwal-ramteke-7a8358312" target="_blank" class="glow-hover glow-sky group border border-line bg-surface rounded-xl p-8 flex flex-col items-center text-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-sky/10 border border-sky/30 flex items-center justify-center text-sky text-xl group-hover:scale-110 transition-transform">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </div>
+          <div>
+            <p class="font-mono text-sm text-fog font-semibold">LinkedIn</p>
+            <p class="text-muted text-xs mt-1">Connect professionally</p>
+          </div>
+        </a>
+
+        <!-- GitHub Card -->
+        <a href="https://github.com/ramtekeprajwal07-pixel" target="_blank" class="glow-hover glow-mint group border border-line bg-surface rounded-xl p-8 flex flex-col items-center text-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-mint/10 border border-mint/30 flex items-center justify-center text-mint text-xl group-hover:scale-110 transition-transform">
+            <i class="fa-brands fa-github"></i>
+          </div>
+          <div>
+            <p class="font-mono text-sm text-fog font-semibold">GitHub</p>
+            <p class="text-muted text-xs mt-1">Browse my code</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section> <!-- This closes the contact section -->
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-line/60 py-8">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="font-mono text-xs text-muted">© <span id="year"></span> Prajwal Ramteke. Built line by line.</p>
+      <p class="font-mono text-xs text-muted">Made with <span class="text-gold">HTML</span>, <span class="text-sky">Tailwind</span> &amp; <span class="text-mint">coffee</span></p>
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+    // Typing effect for the hero subtitle
+    const roles = ['Full-Stack Web Developer', 'Python & Flask Developer', 'Building with SQL & Git'];
+    const typedEl = document.getElementById('typedRole');
+    let roleIndex = 0, charIndex = 0, deleting = false;
+
+    function typeLoop() {
+      const current = roles[roleIndex];
+      if (!deleting) {
+        typedEl.textContent = current.slice(0, ++charIndex);
+        if (charIndex === current.length) {
+          deleting = true;
+          setTimeout(typeLoop, 1600);
+          return;
+        }
+      } else {
+        typedEl.textContent = current.slice(0, --charIndex);
+        if (charIndex === 0) {
+          deleting = false;
+          roleIndex = (roleIndex + 1) % roles.length;
+        }
+      }
+      setTimeout(typeLoop, deleting ? 35 : 70);
+    }
+    typeLoop();
+
+    // Animate skill bars when they enter the viewport
+    const fills = document.querySelectorAll('.skill-fill');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.width = el.dataset.width + '%';
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    fills.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
